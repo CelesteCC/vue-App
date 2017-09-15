@@ -1,6 +1,7 @@
 # studyvue
 
 > A Vue.js project
+> 版权归百度所有，此处只是借用
 
 ## Build Setup
 
