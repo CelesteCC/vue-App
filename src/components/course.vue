@@ -1,7 +1,12 @@
 <template>
   <div class="main">
     <img class="album_pic" src="" alt=""/>
-    <div class="hello"></div>
+    <ul class="songs_content">
+      <li>
+        <div class="songs_content_info"></div>
+        <div class="songs_content_down"></div>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -11,7 +16,8 @@ export default {
   name: 'app',
   data () {
     return {
-      msg: '课程'
+      msg: '课程',
+     // imgL:
     }
   },
   created(){
@@ -33,4 +39,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 .main{font-size: 0.24rem;}
+.songs_content_info{
+  .songs_content_info{
+    display: flex;
+  }
+}
 </style>
