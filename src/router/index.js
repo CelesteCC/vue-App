@@ -7,6 +7,7 @@ import index from '@/components/index'
 import course from '@/components/course'
 import custome from '@/components/custome'
 import selfinfo from '@/components/selfinfo'
+import musicList from '@/components/musicList'
 
 Vue.use(Router)
 Vue.use(VueResource)
@@ -15,7 +16,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
+      //name: 'Hello',
       component: Hello,
       children:[
         { path: '/', component: index },
@@ -27,6 +28,10 @@ export default new Router({
       path: '/selfinfo',
       name:'selfinfo',
       component: selfinfo
+    },{
+      path: '/musicList',
+      name:'musicList',
+      component: musicList
     }
   ]
 })

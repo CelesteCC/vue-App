@@ -15,3 +15,6 @@ body,html{
 [v-cloak] {
   display: none !important;
 }
+a{
+  text-decoration: none;
+}

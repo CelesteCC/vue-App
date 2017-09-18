@@ -1,6 +1,6 @@
 <template>
   <div class="hello pb">
-    <div class="con"><transition :name="transitionName"><router-view class="child-view"></router-view></transition></div>
+    <div class="con"><router-view class="child-view"></router-view></div>
     <ul class="tab">
       <li><router-link to="/"><span class="tab_icon tab_icon01"></span>首页</router-link></li>
       <li><router-link to="/course"><span class="tab_icon tab_icon02"></span>课程</router-link></li>
@@ -73,4 +73,5 @@ a {
     height: 100%;
     width: 100%;
 }
+  .con{height: 100%;overflow-y: auto;}
 </style>
