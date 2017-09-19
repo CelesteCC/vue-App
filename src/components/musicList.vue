@@ -1,11 +1,11 @@
 <template>
   <div class="main">
     <v-header></v-header>
+    <img class="album_pic" :src="albumPic" alt=""/>
     <div class="content">
-      <img class="album_pic" src="" alt=""/>
-      <audio src="audioSrc"></audio>
 
-      <audio :src="audioSrc" controls="controls">
+
+      <audio :src="audioSrc" controls="controls" autoplay id="">
         Your browser does not support the audio element.
       </audio>
       <ul class="songs_content">
@@ -40,6 +40,7 @@
         audioSrc:'',
         downLink:'',
         songid:'',
+        albumPic:'',
         songs: [
           {
             title: '',
@@ -65,13 +66,13 @@
           jsonp:'callback'
         }).then(function(res){
           this.music=res.data.song_list;
-        }, function(res){
-          console.log('加载失败了...')
+          this.albumPic=res.data.billboard.pic_s210;
+          console.log(res.data)
         })
       },
       musicOn(event,index){
-        //this.songid = event.currentTarget.getAttribute('id');
-        /*this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.play&songid='+this.songid+'',{
+        this.songid = event.currentTarget.getAttribute('id');
+        this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.play&songid='+this.songid+'',{
           type:'jsonp',
           jsonp:'callback'
         }).then(function(res){
@@ -82,23 +83,6 @@
           this.flag = true;
         }, function(res){
           console.log('加载失败了...')
-        })*/
-        this.$http.jsonp('http://c.y.qq.com/v8/fcg-bin/fcg_myqq_toplist.fcg', {
-          params: {
-            g_tk: 5381,
-            uin: 0,
-            format: 'jsonp',
-            inCharset: 'utf-8',
-            outCharset: 'utf-8',
-            notice: 0,
-            platform: 'h5',
-            needNewCode: 1,
-            _: new Date().getTime()
-          },
-          jsonp: 'jsonpCallback'
-        }).then(function (response) {
-          //this.list = response.data.data.topList
-          console.log(response)
         })
 
       },
@@ -119,14 +103,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
   .con{height: 100%}
-  .content{
-    background: #f7f7f7 url("../assets/title_bg.png") no-repeat center top;
-    height:100%;
-    background-size: 100% auto;
-    padding: 1.28rem 0.2rem 0.2rem;
-    text-align: center;
-    color: #fff;
-  }
+
   .aplayer{
     position: fixed;
     bottom: 0;
