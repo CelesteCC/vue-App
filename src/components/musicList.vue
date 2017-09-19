@@ -3,7 +3,11 @@
     <v-header></v-header>
     <div class="content">
       <img class="album_pic" src="" alt=""/>
-      <!--<audio src="audioSrc"></audio>-->
+      <audio src="audioSrc"></audio>
+
+      <audio :src="audioSrc" controls="controls">
+        Your browser does not support the audio element.
+      </audio>
       <ul class="songs_content">
         <li v-for="(items,index) in music" :key="index">
           <div class="songs_content_info" @click="musicOn($event,index)" :id="items.song_id">
@@ -13,27 +17,29 @@
               <span class="songs_content_info_artist">{{items.artist_name}}</span>
             </p>
           </div>
-          <div class="songs_content_down" @click="download($event)"></div>
+          <div class="songs_content_down" @click="download($event)" :id="items.song_id"><router-link :to="downLink"></router-link></div>
         </li>
       </ul>
     </div>
-    <a-player mutex :music="songs" ref="player" :showlrc="3" v-if="flag" mode="circulation"></a-player>
+    <!--<a-player mutex :music="songs" ref="player" :showlrc="3" v-if="flag" mode="circulation"></a-player>-->
   </div>
 </template>
 <script>
   import header from "./header.vue"
-  import VueAplayer from 'vue-aplayer'
+  /*import VueAplayer from 'vue-aplayer'*/
   export default {
     name: 'app',
     components:{
       "v-header":header,
-      'a-player': VueAplayer
+      /*'a-player': VueAplayer*/
     },
     data () {
       return {
         music:[],
         flag:false,
         audioSrc:'',
+        downLink:'',
+        songid:'',
         songs: [
           {
             title: '',
@@ -46,8 +52,8 @@
       }
     },
     mounted() {
-     let aplayer = this.$refs.player.control;
-      aplayer.pause();
+     /*let aplayer = this.$refs.player.control;
+      aplayer.pause();*/
     },
     created(){
       this.getData()
@@ -64,22 +70,48 @@
         })
       },
       musicOn(event,index){
-        let songid = event.currentTarget.getAttribute('id');
-        event.stopPropagation();
-        this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.playAAC&songid='+songid+'',{
+        //this.songid = event.currentTarget.getAttribute('id');
+        /*this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.play&songid='+this.songid+'',{
           type:'jsonp',
           jsonp:'callback'
         }).then(function(res){
-          this.songs[0].url = res.body.bitrate.file_link;
+          this.audioSrc = res.body.bitrate.file_link;
           this.songs[0].title = res.body.songinfo.album_title;
           this.songs[0].author = res.body.songinfo.author;
-          console.log(this.songs)
+          console.log(res)
           this.flag = true;
         }, function(res){
           console.log('加载失败了...')
+        })*/
+        this.$http.jsonp('http://c.y.qq.com/v8/fcg-bin/fcg_myqq_toplist.fcg', {
+          params: {
+            g_tk: 5381,
+            uin: 0,
+            format: 'jsonp',
+            inCharset: 'utf-8',
+            outCharset: 'utf-8',
+            notice: 0,
+            platform: 'h5',
+            needNewCode: 1,
+            _: new Date().getTime()
+          },
+          jsonp: 'jsonpCallback'
+        }).then(function (response) {
+          //this.list = response.data.data.topList
+          console.log(response)
         })
+
       },
-      download(event){}
+      download(event){
+        this.songid = event.currentTarget.getAttribute('id');
+        this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.playAAC&songid='+this.songid+'',{
+          type:'jsonp',
+          jsonp:'callback'
+        }).then(function(res){
+          window.open(res.body.bitrate.file_link);
+          console.log(res)
+        })
+      }
     }
   }
 </script>
