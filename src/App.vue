@@ -31,6 +31,7 @@ export default {
 
 <style>
 @import "assets/css/reset.css";
+@import "assets/fonts/iconfont.css";
 
 #app {
   -webkit-font-smoothing: antialiased;

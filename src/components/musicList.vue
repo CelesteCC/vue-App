@@ -3,8 +3,6 @@
     <v-header></v-header>
     <img class="album_pic" :src="albumPic" alt=""/>
     <div class="content">
-
-
       <audio :src="audioSrc" controls="controls" autoplay id="">
         Your browser does not support the audio element.
       </audio>

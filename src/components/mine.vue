@@ -53,7 +53,7 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
 a{text-decoration: none;display: block}
 .main{
     position: relative;
