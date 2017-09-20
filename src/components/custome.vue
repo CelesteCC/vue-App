@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <div class="content">
-      <audio id="audio" src="https://m7.music.126.net/20170920181627/20da8988bf4d3a82c059bbbd6a5a785a/ymusic/1606/426f/10a6/a01cace34f2df73c384bbcfe3e30b827.mp3"></audio>
+      <audio id="audio" :src="audioSrc"></audio>
       <div class="audio_top">
         <div class="audio_top_back iconfont icon-back" @click="$router.go(-1)"></div>
         <div class="audio_top_name">
@@ -16,9 +16,9 @@
       </div>
       <div class="audio_play">
         <div class="audio_bar">
-          <span>00:00</span>
+          <span>{{curTime}}</span>
           <p><i :style="{width:barWidth+'%'}"><em></em></i></p>
-          <span>03:52</span>
+          <span>{{duration}}</span>
         </div>
         <div class="audio_btn">
           <span class="iconfont icon-shangyiqu"></span>
@@ -38,60 +38,56 @@
       flag: false,
       music_on: 'music_on',
       audioPic: '',
-      barWidth: 0
+      audioSrc:'',
+      barWidth: 0,
+      curTime:'00:00',
+      duration:''
     }
   },
-  created()
-  {
-    /*this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.lry&songid=554926752',{
-        type:'jsonp',
-        jsonp:'callback'
-      }).then(function(res){
-//        res.data["imgsrc"]=_self.imgsrc[i];  //将图片插入到数组中
-        //this.$set('msg',res.data.song_list)
-        this.liric = res.body.lrcContent
-        //console.log(res.data.song_list)
-      }, function(res){
-        console.log('加载失败了...')
-      })*/
-      this.$http.get('https://api.imjad.cn/cloudmusic/?type=song&id=449818741&br=128000').then(
+  created(){
+    this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.play&songid=554926752',{
+      type:'jsonp',
+      jsonp:'callback'
+    }).then(function(res){
+      this.audioSrc = res.body.bitrate.file_link;
+      var self = this;
+      self.duration = '0' + ''+(res.body.bitrate.file_duration/60).toFixed(2)+''
+      console.log(self.duration)
+    })
+      /*this.$http.get('https://api.imjad.cn/cloudmusic/?type=song&id=449818741&br=128000').then(
         function(res){
           console.log(res)
-      });
-    /*setInterval(function(){
-        let _this = this;
-        _this.barWidth = (document.getElementById('audio').currentTime/60)/(document.getElementById('audio').duration/60)*100*1;
-        console.log(typeof(_this.barWidth))
-      },100);*/
-    },
+      });*/
+   //console.log(document.getElementById('audio').duration/60.toFixed(2))
+  },
   methods:{
-      musicPlay(){ //this.currentTime = document.getElementById('audio').currentTime/60
+      musicPlay(){
+        let audio = document.getElementById('audio');
+        let timerID = null;
+        clearInterval(timerID);
         if(!this.flag){
-          document.getElementById('audio').play();
+          audio.play();
           this.flag = true;
-          var i = 0;
-          //var timerID = setInterval(function(){
-            //i++;
-            this.barWidth = 20;
-            console.log(this.barWidth)
-          //}, 1000);
-        }else{
-          document.getElementById('audio').pause();
+          timerID = setInterval(test, 100);
+          let self = this;
+          function test(){
+            if(self.barWidth>=100){
+              return false;
+            }
+            self.barWidth = (audio.currentTime/60)/(audio.duration/60)*100;
+            self.curTime = (audio.currentTime/60).toFixed(2);
+            if(self.curTime<10){
+              self.curTime = '0'+''+(audio.currentTime/60).toFixed(2)+'';
+            }
+
+            //console.log()
+          }
+        }else {
+          audio.pause();
           this.flag = false;
+          clearInterval(timerID);
         }
       }
-  },
-  beforeMount(){
-    if(this.flag){
-      var timerID = setInterval(test, 100);
-      var self = this;
-      var i = 0;
-      function test(){
-        i++;
-        self.barWidth = i;
-       // console.log(self.barWidth)
-      }
-    }
   }
 }
 </script>
