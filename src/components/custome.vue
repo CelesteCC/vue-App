@@ -2,6 +2,7 @@
   <div class="main">
     <div class="content">
       <audio id="audio" :src="audioSrc"></audio>
+      <!--<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=483671599&auto=1&height=66"></iframe>-->
       <div class="audio_top">
         <div class="audio_top_back iconfont icon-back" @click="$router.go(-1)"></div>
         <div class="audio_top_name">
@@ -45,20 +46,39 @@
     }
   },
   created(){
-    this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.play&songid=554926752',{
+    /*this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.play&songid=554926752',{
       type:'jsonp',
       jsonp:'callback'
     }).then(function(res){
       this.audioSrc = res.body.bitrate.file_link;
       var self = this;
       self.duration = '0' + ''+(res.body.bitrate.file_duration/60).toFixed(2)+''
-      console.log(self.duration)
-    })
-      /*this.$http.get('https://api.imjad.cn/cloudmusic/?type=song&id=449818741&br=128000').then(
+      console.log(res)
+    })*/
+
+      this.$http.get('https://api.imjad.cn/cloudmusic/?type=lyric&id=449818741').then(
+        function(res){
+        console.log(res)
+      });
+
+      this.$http.get('http://musicapi.duapp.com/api.php?type=url&id=449818741').then(
         function(res){
           console.log(res)
-      });*/
-   //console.log(document.getElementById('audio').duration/60.toFixed(2))
+      });
+  },
+  mounted(){
+    this.$http.get('https://api.imjad.cn/cloudmusic/?type=song&id=449818741&br=128000').then(
+      function(res){
+        console.log(res)
+        this.audioSrc = res.body.data[0].url;
+      });
+    let audio = document.getElementById('audio');
+    var self = this;
+    //self.duration = '0' + ''+(audio.duration/60).toFixed(2)+''
+    setTimeout(function(){
+      self.duration = '0' + ''+(audio.duration/60).toFixed(2)+''
+      console.log(audio.duration)
+    },600)
   },
   methods:{
       musicPlay(){
@@ -79,8 +99,6 @@
             if(self.curTime<10){
               self.curTime = '0'+''+(audio.currentTime/60).toFixed(2)+'';
             }
-
-            //console.log()
           }
         }else {
           audio.pause();
@@ -88,6 +106,9 @@
           clearInterval(timerID);
         }
       }
+  },
+  updated(){
+
   }
 }
 </script>

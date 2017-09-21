@@ -1,18 +1,38 @@
 <template>
   <div class="main">
-    <img class="album_pic" src="" alt=""/>
-    <ul class="songs_content">
-      <li v-for="(items,index) in music">
-        <div class="songs_content_info">
-          <span class="songs_content_info_num">{{index+1}}</span>
-          <p>
-            <span class="songs_content_info_name">{{items.album_title}}</span>
-            <span class="songs_content_info_artist">{{items.artist_name}}</span>
-          </p>
-        </div>
-        <div class="songs_content_down"></div>
-      </li>
-    </ul>
+    <div class="search_bar">
+      <input type="text" v-model="val" @keyup="get($event)" placeholder="歌名、歌词、歌手、专辑"/>
+      <span class="iconfont icon-search" @click="search()"></span>
+    </div>
+    <div class="content">
+      <p v-show="music.length==0">暂无搜索记录</p>
+      <div v-show="music.length!=0" class="">
+        <p>专辑</p>
+        <ul class="songs_content">
+          <li v-for="(items,index) in album">
+            <div class="songs_content_info">
+              <p>
+                <span class="songs_content_info_name">{{items.albumname}}</span>
+                <span class="songs_content_info_artist">{{items.artistname}}</span>
+              </p>
+            </div>
+            <div class="songs_content_down"><span class="iconfont icon-xiazai"></span></div>
+          </li>
+        </ul>
+        <p>歌曲</p>
+        <ul class="songs_content">
+          <li v-for="(items,index) in music">
+            <div class="songs_content_info">
+              <p>
+                <span class="songs_content_info_name">{{items.songname}}</span>
+                <span class="songs_content_info_artist">{{items.artistname}}</span>
+              </p>
+            </div>
+            <div class="songs_content_down"><span class="iconfont icon-xiazai"></span></div>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -21,29 +41,78 @@ export default {
   data () {
     return {
       msg: '课程',
-      music:[]
+      music:[],
+      album:[],
+      val:''
     }
   },
   created(){
-      this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?size=20&type=2&callback=cb_list&_t=1468380543284&format=json&method=baidu.ting.billboard.billList',{
+    console.log()
+  },
+  methods:{
+    search(event){
+      this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.search.catalogSug&query='+this.val+'',{
         type:'jsonp',
         jsonp:'callback'
       }).then(function(res){
-//        res.data["imgsrc"]=_self.imgsrc[i];  //将图片插入到数组中
-         //this.$set('msg',res.data.song_list)
-        this.music=res.data.song_list;
-        //console.log(res.data.song_list)
-      }, function(res){
-        console.log('加载失败了...')
+        this.music = res.body.song;
+        this.album = res.body.album;
       })
-  console.log(this.music)
+    },
+    get(ev){
+      //alert(ev.keyCode)
+      if(this.val!=''){
+        this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.search.catalogSug&query='+this.val+'',{
+          type:'jsonp',
+          jsonp:'callback'
+        }).then(function(res){
+          this.music = res.body.song;
+          this.album = res.body.album;
+        })
+      }else{
+        this.music = '';
+      }
+    }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss">
-.main{font-size: 0.24rem;}
+<style scoped lang="scss">
+.main{font-size: 0.24rem;padding-top: 0.88rem;height: 100%;}
+.content{
+  height: 100%;
+  overflow-y: auto;
+}
+.search_bar{
+  height: 0.88rem;
+  background: #fff;
+  margin-top: -0.88rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.2rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  position: relative;
+  input{
+    width: 100%;
+    border: 1px solid #ccc;
+    height: 0.6rem;
+    border-radius: 0.6rem;
+    padding: 0 0.15rem;
+    outline: none;
+    font-size: 0.28rem;
+  }
+  span{
+    position: absolute;
+    right: 0.2rem;
+    height: 0.6rem;
+    width: 0.8rem;
+    line-height: 0.6rem;
+    color: #333;
+    font-size: 0.32rem;
+  }
+}
 .album_pic{
   display: block;
   width: 100%;
@@ -100,8 +169,13 @@ export default {
     .songs_content_down{
       width: 1.2rem;
       height: 100%;
-      background: url("../assets/download.png") center no-repeat;
-      background-size: 0.48rem auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      span{
+        font-size: 0.42rem;
+        color: #008800;
+      }
     }
   }
 }
