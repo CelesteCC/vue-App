@@ -3,9 +3,9 @@
     <v-header></v-header>
     <img class="album_pic" :src="albumPic" alt=""/>
     <div class="content">
-      <audio :src="audioSrc" controls="controls" autoplay id="">
+      <!--<audio :src="audioSrc" controls="controls" autoplay id="">
         Your browser does not support the audio element.
-      </audio>
+      </audio>-->
       <ul class="songs_content">
         <li v-for="(items,index) in music" :key="index">
           <div class="songs_content_info" @click="musicOn($event,index)" :id="items.song_id">

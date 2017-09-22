@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="con"><router-view class="child-view"></router-view></div>
+    <div class="con"><router-view></router-view></div>
   </div>
 </template>
 
@@ -25,14 +25,12 @@ export default {
       }
     }
   }
-
 }
 </script>
 
 <style>
 @import "assets/css/reset.css";
 @import "assets/fonts/iconfont.css";
-
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -40,6 +38,9 @@ export default {
   color: #2c3e50;
   height: 100%;
   width: 7.5rem;
+}
+.con{
+  height: 100%;
 }
 .pb{padding-bottom: 0.9rem;}
 .tab{

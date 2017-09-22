@@ -1,6 +1,6 @@
 <template>
   <div class="hello pb">
-    <div class="con"><router-view class="child-view"></router-view></div>
+    <div class="con"><router-view></router-view></div>
     <ul class="tab">
       <li><router-link to="/"><span class="tab_icon tab_icon01"></span>首页</router-link></li>
       <li><router-link to="/course"><span class="tab_icon tab_icon02"></span>课程</router-link></li>
@@ -25,33 +25,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .con{height: 100%;overflow: hidden}
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s ease;
-}
-.fade-enter, .fade-leave-active {
-  opacity: 0
-}
-.child-view {
-  position: absolute;
-  top: 0;
-  bottom: 0.9rem;
-  transition: all .5s cubic-bezier(.55,0,.1,1);
-}
-.slide-left-enter, .slide-right-leave-active {
-  opacity: 0;
-  -webkit-transform: translate(30px, 0);
-  transform: translate(30px, 0);
-}
-.slide-left-leave-active, .slide-right-enter {
-  opacity: 0;
-  -webkit-transform: translate(-30px, 0);
-  transform: translate(-30px, 0);
-}
-.main{
-  position: relative;
-  font-size: 0.28rem;
-  height: 100%;
-}
 h1, h2 {
   font-weight: normal;
 }

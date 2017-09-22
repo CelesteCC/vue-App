@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
 import Router from 'vue-router'
+import vuex from 'vuex'
 import Hello from '@/components/Hello'
 import mine from '@/components/mine'
 import index from '@/components/index'
@@ -11,6 +12,7 @@ import musicList from '@/components/musicList'
 
 Vue.use(Router)
 Vue.use(VueResource)
+Vue.use(vuex)
 
 export default new Router({
   routes: [

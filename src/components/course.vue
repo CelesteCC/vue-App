@@ -5,7 +5,7 @@
       <span class="iconfont icon-search" @click="search()"></span>
     </div>
     <div class="content">
-      <p v-show="music.length==0">暂无搜索记录</p>
+      <p v-show="music.length==0" class="search_none"><img class="" src="../assets/pr_none.jpg" alt=""/>暂无搜索记录</p>
       <div v-show="music.length!=0" class="">
         <p>专辑</p>
         <ul class="songs_content">
@@ -47,7 +47,12 @@ export default {
     }
   },
   created(){
-    console.log()
+    this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.getRecommandSongList&song_id=8059247&num=10',{
+      type:'jsonp',
+      //jsonp:'callback'
+    }).then(function(res){
+      console.log(res)
+    })
   },
   methods:{
     search(event){
@@ -55,23 +60,28 @@ export default {
         type:'jsonp',
         jsonp:'callback'
       }).then(function(res){
-        this.music = res.body.song;
-        this.album = res.body.album;
+        if(this.val!=''&&res.body.errno!=22001) {
+          this.music = res.body.song;
+          this.album = res.body.album;
+          console.log(res)
+        }else{
+          this.music = '';
+        }
       })
     },
     get(ev){
-      //alert(ev.keyCode)
-      if(this.val!=''){
-        this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.search.catalogSug&query='+this.val+'',{
-          type:'jsonp',
-          jsonp:'callback'
-        }).then(function(res){
+      this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.search.catalogSug&query='+this.val+'',{
+        type:'jsonp',
+        jsonp:'callback'
+      }).then(function(res){
+        if( this.val!='' && res.body.errno!=22001 ) {
           this.music = res.body.song;
           this.album = res.body.album;
-        })
-      }else{
-        this.music = '';
-      }
+          console.log(res)
+        }else{
+          this.music = '';
+        }
+      })
     }
   }
 }

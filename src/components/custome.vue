@@ -106,9 +106,6 @@
           clearInterval(timerID);
         }
       }
-  },
-  updated(){
-
   }
 }
 </script>
