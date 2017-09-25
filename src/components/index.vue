@@ -70,20 +70,6 @@ export default {
 
 </script>
 
-<style scoped lang="scss">
-.con{height: 100%;}
-.main{font-size: 0.24rem;height: 100%;overflow: auto;padding-top: 0.44rem;}
-.list{margin: 0;padding: 0 0.2rem;list-style: none;}
-.list li{position: relative;counter-reset: num;padding: 0.2rem 0;}
-.list li a{display: table;width: 100%;table-layout: fixed}
-.list li:after{content: '';position: absolute;height: 1px;background: #ccc;width: 100%;bottom: 0;left: 0;-webkit-transform: scaleY(.5);transform: scaleY(.5);}
-.list li:last-child:after{content: normal;}
-.list_col{display: table-cell;vertical-align: middle}
-.list li .list_col:first-child{width: 1.92rem;}
-.list_img{display: inline-block;width: 1.92rem;height: 1.92rem;position: relative;}
-.list_img:after{content: '';position: absolute;width: 0.6rem;height: 0.6rem;background: url("../assets/play_icon.png") right bottom no-repeat;background-size: 100% auto;right: 0.15rem;bottom: 0.15rem;z-index: 1}
-.list_img img{width: 100%;height: 100%;}
-.list_song{padding: 0 0.2rem;width: 5.18rem;}
-.list_song p{white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-size: 0.28rem;color: #333;text-align: left;padding: 6px 0;}
-.list_song p:before{content: counter(num);counter-increment: num;color: #fa6644;margin-right: 0.15rem;}
+<style lang="scss">
+  .list_img:after{content: '';position: absolute;width: 0.6rem;height: 0.6rem;background: url("../assets/play_icon.png") right bottom no-repeat;background-size: 100% auto;right: 0.15rem;bottom: 0.15rem;z-index: 1}
 </style>
