@@ -47,9 +47,10 @@ export default {
     }
   },
   created(){
-    this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.getRecommandSongList&song_id=8059247&num=10',{
+    this.$http.jsonp('http://musicapi.qianqian.com/v1/restserver/ting?from=webapp_music&method=baidu.ting.search.hot&page_num=10&s_protocol=&_=1506349619688',{
       type:'jsonp',
-      //jsonp:'callback'
+      jsonp:'callback',
+      callback:'search_hot'
     }).then(function(res){
       console.log(res)
     })

@@ -8,8 +8,10 @@ $color-gray:#ccc;
   background: linear-gradient(to right, #008fff , #10beff);
 }
 @mixin bor{
+  content: '';
+  position: absolute;
   height: 1px;
-  background: $color-gray;
+  background: rgba(255,255,255,0.5);
   width: $full;
   bottom: 0;
   left: 0;
@@ -114,8 +116,6 @@ a{
 .list li{position: relative;counter-reset: num;padding: 0.2rem 0;}
 .list li a{display: table;width: 100%;table-layout: fixed}
 .list li:after{
-  content: '';
-  position: absolute;
   @include bor;
 }
 .list li:last-child:after{content: normal;}
@@ -124,5 +124,35 @@ a{
 .list_img{display: inline-block;width: 1.92rem;height: 1.92rem;position: relative;}
 .list_img img{width: 100%;height: 100%;}
 .list_song{padding: 0 0.2rem;width: 5.18rem;}
-.list_song p{white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-size: 0.28rem;color: #333;text-align: left;padding: 6px 0;}
+.list_song p{white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-size: 0.28rem;color: #fff;text-align: left;padding: 6px 0;}
 .list_song p:before{content: counter(num);counter-increment: num;color: #fa6644;margin-right: 0.15rem;}
+.plr40{
+  padding: 0 0.4rem;
+}
+.singer_item{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding:0.4rem 0;
+  :after{
+    @include bor;
+  }
+  .singer_img{
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    overflow: hidden;
+    img{
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .singer_name{
+    flex: 1;
+    font-size: 0.36rem;
+    color: #fff;
+    padding-left: 0.2rem;
+    text-align: left;
+  }
+}
