@@ -111,7 +111,7 @@ a{
   height: $full;
   width: $full;
 }
-.main{font-size: 0.24rem;height: 100%;overflow: auto;padding-top: 0.44rem;}
+.main{font-size: 0.24rem;height: 100%;overflow: auto;}
 .list{margin: 0;padding: 0 0.2rem;list-style: none;}
 .list li{position: relative;counter-reset: num;padding: 0.2rem 0;}
 .list li a{display: table;width: 100%;table-layout: fixed}
@@ -169,7 +169,7 @@ a{
       color: #fff;
     }
     p{
-      height: 0.6rem;
+      height: 0.8rem;
       text-align: left;
       font-size: 0.24rem;
       line-height: 0.34rem;
@@ -193,8 +193,22 @@ a{
     }
   }
 }
-
-
+.album_tit{
+  font-size: 0.36rem;
+  text-align: left;
+  padding: 0.15rem 0.2rem;
+  color: #ff2f8e;
+  &:before{
+    content: '';
+    display: inline-block;
+    vertical-align: text-top;
+    width: 3px;
+    height: 0.36rem;
+    background: #ff2f8e;
+    margin-right: 0.15rem;
+    border-radius: 4px;
+  }
+}
 
 
 

@@ -1,11 +1,8 @@
 <template>
-  <div class="main">
-    <v-header></v-header>
+  <div class="main pt">
+    <v-header :title="title"></v-header>
     <img class="album_pic" :src="albumPic" alt=""/>
     <div class="content">
-      <!--<audio :src="audioSrc" controls="controls" autoplay id="">
-        Your browser does not support the audio element.
-      </audio>-->
       <ul class="songs_content">
         <li v-for="(items,index) in music" :key="index">
           <div class="songs_content_info" @click="musicOn($event,index)" :id="items.song_id">
@@ -33,6 +30,7 @@
     },
     data () {
       return {
+        title:'',
         music:[],
         flag:false,
         audioSrc:'',
@@ -65,7 +63,7 @@
         }).then(function(res){
           this.music=res.data.song_list;
           this.albumPic=res.data.billboard.pic_s210;
-          console.log(res.data)
+          this.title = res.data.billboard.name
         })
       },
       musicOn(event,index){
@@ -77,12 +75,8 @@
           this.audioSrc = res.body.bitrate.file_link;
           this.songs[0].title = res.body.songinfo.album_title;
           this.songs[0].author = res.body.songinfo.author;
-          console.log(res)
           this.flag = true;
-        }, function(res){
-          console.log('加载失败了...')
         })
-
       },
       download(event){
         this.songid = event.currentTarget.getAttribute('id');
@@ -91,7 +85,6 @@
           jsonp:'callback'
         }).then(function(res){
           window.open(res.body.bitrate.file_link);
-          console.log(res)
         })
       }
     }
@@ -99,9 +92,8 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss">
+<style scoped lang="scss">
   .con{height: 100%}
-
   .aplayer{
     position: fixed;
     bottom: 0;
@@ -110,14 +102,15 @@
     width: 100%;
     left: 0;
   }
-  .main{font-size: 0.24rem;height: 100%}
+  .main{font-size: 0.24rem;height: 100%;padding-top: 1.24rem;}
+  .content{padding: 0.2rem;}
   .album_pic{
     display: block;
     width: 100%;
   }
   .songs_content{
     padding:0 0.2rem;
-  background:#fff;
+  background:rgba(255,255,255,0.2);
   border-radius:0.12rem;
   height:100%;
   overflow-y:auto;
@@ -139,7 +132,7 @@
     height: 1px;
     -webkit-transform: scaleY(.5);
     transform: scaleY(.5);
-    background: #ccc;
+    background: rgba(255,255,255,0.1);
     left: 0;
     bottom: 0;
   }
@@ -154,18 +147,18 @@
     text-align: left;
   span{
     font-size: 0.24rem;
-    color: #999
+    color: #rgba(255,255,255,0.1)
   }
   .songs_content_info_name{
     display: block;
     font-size: 0.28rem;
-    color: #333
+    color: #fff
   }
   }
   .songs_content_info_num{
     flex: 1;
     font-size: 0.32rem;
-    color: #999;
+    color: #fff;
   }
   }
   .songs_content_down{

@@ -63,7 +63,7 @@ export default {
   },
   methods:{
     num(index){
-      this.id = this.type[index]    //获取type值
+      this.id = this.type[index];    //获取type值
     }
   }
 }

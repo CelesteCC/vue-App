@@ -1,20 +1,20 @@
 <template>
   <div class="main">
-    <p>新歌速递</p>
+    <p class="album_tit"><span>新歌速递</span><router-link to=""></router-link></p>
     <ul class="m_list">
       <li v-for="items in album">
-        <router-link to="">
+        <router-link to=""><!--  :to="{path:'/musicList', query: { type: item.getType }}" -->
           <div class="m_list_img"><img :src="items.avatar_s300" alt=""/><p><span class="iconfont"></span>{{items.listen_nums}}万</p></div>
-          <p>{{items.album_title}} - {{items.author}}</p>
+          <p>{{items.album_title}} <br> {{items.author}}</p>
         </router-link>
       </li>
     </ul>
-    <p>新碟上架</p>
+    <p class="album_tit">新碟上架</p>
     <ul class="m_list">
       <li v-for="items in video">
         <router-link to="">
           <div class="m_list_img"><img :src="items.pic_radio" alt=""/><!--<p><span class="iconfont"></span>{{items.listen_nums}}万</p>--></div>
-          <p>{{items.title}} - {{items.author}}</p>
+          <p>{{items.title}} <br> {{items.author}}</p>
         </router-link>
       </li>
     </ul>
@@ -43,7 +43,6 @@ export default {
       callback:'search_hot'
     }).then(function(res){
       this.video = res.data.plaze_album_list.RM.album_list.list;
-      console.log(res.data.plaze_album_list.RM.album_list.list)
     });
   },
   methods:{
