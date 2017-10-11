@@ -72,6 +72,14 @@ a{
   flex: 1;
   font-size: 0.4rem;
   line-height: 0.9rem;
+  position: relative;
+  a{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
 }
 .tab{
   padding: 0;
@@ -130,11 +138,13 @@ a{
   padding: 0 0.4rem;
 }
 .singer_item{
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: relative;
   padding:0.4rem 0;
+  a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   :after{
     @include bor;
   }
@@ -209,9 +219,172 @@ a{
     border-radius: 4px;
   }
 }
+.head{
+  height: 1.24rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  line-height: 0.84rem;
+  text-align: center;
+  font-size: 0.36rem;
+  color: #fff;
+  padding-top: 0.44rem;
+  background: #73129a;
+  z-index: 20;
+}
+.head_left{
+  position: absolute;
+  top: 0.44rem;
+  left: 0;
+  width: 1rem;
+  height: 0.84rem;
+}
+.head_right{
+  position: absolute;
+  top: 0.44rem;
+  right: 0;
+  width: 1.28rem;
+  height: 0.84rem;
+  text-align: center;
+  font-size: 0.28rem;
+}
 
+$height:1.2rem;
+.radio{
+  height: 100%;
+  background: -webkit-radial-gradient(#7ef0ad, #34de7b);
+  background: -o-radial-gradient(#7ef0ad, #34de7b);
+  background: -moz-radial-gradient(#7ef0ad, #34de7b);
+  background: radial-gradient(#7ef0ad, #34de7b);
+  padding: 1.2rem 0 1.6rem;
+}
+.audio_top{
+  height: $height;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -$height;
+  .audio_top_back{
+    flex: 1;
+    height: 100%;
+    line-height: $height;
+    font-size: 0.38rem;
+    color: #fff;
+  }
+  .audio_top_name{
+    flex: 5;
+    height: 100%;
+    text-align:left;
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+    .audio_top_musicname{
+      font-size: 0.32rem;
+      color: #fff;
+    }
+    .audio_top_musicartist{
+      font-size: 0.28rem;
+      color: #fff;
+    }
+  }
+  .audio_top_download{
+    flex: 1;
+    height: 100%;
+    color: #fff;
+    font-size: 0.42rem;
+    line-height: $height;
+  }
+}
+.audio_pic{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .audio_pic_img{
+    height: $height*3;
+    width: $height*3;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    overflow:hidden;
+    img{
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .audio_pic_lry{
+    height: 4rem;
+    width: 100%;
+    overflow-y: auto;
+    font-size: 0.28rem;
+    line-height: 0.56rem;
+  }
+}
+.audio_bar{
+  height: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  span{
+    flex: 1;
+    font-size: 0.24rem;
+  }
+  p{
+    flex: 5;
+    height: 0.08rem;
+    background: #fff;
+    border-radius: 0.4rem;
+    i{
+      display: block;
+      width: 0;
+      background: #ccc;
+      height: 100%;
+      position: relative;
+      border-radius:0.4rem;
+      em{
+        position: absolute;
+        width: 0.20rem;
+        height: 0.20rem;
+        border-radius: 50%;
+        background: #fff;
+        right: -0.1rem;
+        top: -0.06rem;
+      }
+    }
+  }
+}
+.audio_btn{
+  height: $height;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  span{
+    width: 1.6rem;
+    font-size: 0.6rem;
+    color: #fff;
+  }
+  .icon-yinlebofang{
+    font-weight: bold;
+    :before{
+      display: inline-block;
+    }
+  }
 
+}
+.music_on{
+  animation: on 3s linear infinite;
+}
 
+@keyframes on {
+  0{
+    transform: rotate(0);
+  }
+  100%{
+     transform: rotate(360deg);
+  }
+}
 
 
 

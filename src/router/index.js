@@ -9,6 +9,10 @@ import course from '@/components/course'
 import custome from '@/components/custome'
 import selfinfo from '@/components/selfinfo'
 import musicList from '@/components/musicList'
+import albuminfo from '@/components/albuminfo'
+import search from '@/components/search'
+import singer from '@/components/singer'
+import radioPlay from '@/components/radioPlay'
 
 Vue.use(Router)
 Vue.use(VueResource)
@@ -21,8 +25,8 @@ export default new Router({
       //name: 'Hello',
       component: Hello,
       children:[
-        { path: '/', component: index },
-        { path: '/course', component: course },
+        { path: '/index', component: index },
+        { path: '/', component: course },
         { path: '/custome', component: custome },
         { path: '/mine', component: mine }
       ]
@@ -34,6 +38,22 @@ export default new Router({
       path: '/musicList',
       name:'musicList',
       component: musicList
+    },{
+      path: '/albuminfo',
+      name:'albuminfo',
+      component: albuminfo
+    },{
+      path: '/search',
+      name:'search',
+      component: search
+    },{
+      path: '/singer',
+      name:'singer',
+      component: singer
+    },{
+      path: '/radioPlay',
+      name:'radioPlay',
+      component: radioPlay
     }
   ]
 })

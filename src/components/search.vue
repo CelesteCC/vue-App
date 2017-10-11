@@ -1,11 +1,14 @@
 <template>
   <div class="main">
-    <div class="search_bar">
-      <input type="text" v-model="val" @keyup="get($event)" placeholder="歌名、歌词、歌手、专辑"/>
-      <span class="iconfont icon-search" @click="search()"></span>
+    <div class="head_search">
+      <i class="head_left iconfont icon-back" @click="$router.go(-1)"></i>
+      <div class="search_bar">
+        <input type="text" v-model="val" @keyup="get($event)" placeholder="歌名、歌词、歌手、专辑"/>
+        <span class="iconfont icon-search" @click="search()"></span>
+      </div>
     </div>
     <div class="content">
-      <p v-show="music.length==0" class="search_none"><img class="" src="../assets/pr_none.jpg" alt=""/>暂无搜索记录</p>
+      <p v-show="music.length==0" class="search_none">暂无搜索记录</p>
       <div v-show="music.length!=0" class="">
         <p>专辑</p>
         <ul class="songs_content">
@@ -88,21 +91,26 @@
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
   .main{font-size: 0.24rem;padding-top: 0.88rem;height: 100%;}
   .content{
     height: 100%;
     overflow-y: auto;
   }
+  .head_search{
+    padding-left: 1rem;
+    .head_left{
+      top: 0;
+      line-height: 0.88rem;
+    }
+  }
   .search_bar{
     height: 0.88rem;
-    background: #fff;
     margin-top: -0.88rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 0.2rem;
+    padding: 0 0.2rem 0 0;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     position: relative;
   input{
@@ -113,6 +121,9 @@
     padding: 0 0.15rem;
     outline: none;
     font-size: 0.28rem;
+    background: rgba(255,255,255,0.5);
+    color: #fff;
+
   }
   span{
     position: absolute;
@@ -120,7 +131,7 @@
     height: 0.6rem;
     width: 0.8rem;
     line-height: 0.6rem;
-    color: #333;
+    color: #fff;
     font-size: 0.32rem;
   }
   }
@@ -163,12 +174,12 @@
     text-align: left;
   span{
     font-size: 0.24rem;
-    color: #999
+    color: rgba(255,255,255,0.7)
   }
   .songs_content_info_name{
     display: block;
     font-size: 0.28rem;
-    color: #333
+    color: #fff
   }
   }
   .songs_content_info_num{
@@ -191,4 +202,7 @@
   }
   }
   .songs_content li:last-child:after{content: normal}
+  ::-webkit-input-placeholder{
+    color: #fff;
+  }
 </style>
