@@ -3,9 +3,9 @@
     <div class="top_bar">
       <div class="top_l_action iconfont icon-search"></div>
       <ul class="tab">
-        <li><router-link to="/"><span class="iconfont icon-yinle"></span></router-link></li>
+        <li><router-link to="/"><span class="iconfont icon-tingyinle"></span></router-link></li>
         <li><router-link to="/index"><span class="iconfont icon-yinpingedan"></span></router-link></li>
-        <li><router-link to="/custome"><span class="iconfont icon-user"></span></router-link></li>
+        <li><router-link to="/custome"><span class="iconfont icon-mianxingtubiao1yinlediantai" style="font-size: 0.6rem"></span></router-link></li>
         <!--<li><router-link to="/mine"><span class="tab_icon tab_icon04"></span>我的</router-link></li>-->
       </ul>
       <div class="top_l_action iconfont icon-search"><router-link to="/search"></router-link></div>

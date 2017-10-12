@@ -36,8 +36,14 @@
         jsonp:'callback'
       }).then(function(res){
         this.title = res.data.name
-        console.log(res)
+        //console.log(res)
       });
+     /* this.$http.jsonp('http://music.baidu.com/songlist/tag/%E5%85%A8%E9%83%A8?orderType=1&offset=40',{
+        type:'jsonp',
+        jsonp:'callback'
+      }).then(function(res){
+        console.log(res)
+      });*/
     }
   }
 </script>

@@ -2,10 +2,10 @@ $full:100%;
 $dflex:flex;
 $color-gray:#ccc;
 @mixin gradientColor{
-  background: -webkit-linear-gradient(left, #008fff , #10beff);
-  background: -o-linear-gradient(right, #008fff, #10beff);
-  background: -moz-linear-gradient(right, #008fff, #10beff);
-  background: linear-gradient(to right, #008fff , #10beff);
+  background: -webkit-linear-gradient(135deg, #a81ff7 , #7e00ff);
+  background: -o-linear-gradient(135deg, #a81ff7, #7e00ff);
+  background: -moz-linear-gradient(135deg, #a81ff7, #7e00ff);
+  background: linear-gradient(135deg, #a81ff7 , #7e00ff);
 }
 @mixin bor{
   content: '';
@@ -25,6 +25,9 @@ body,html{
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-overflow-scrolling: touch;
   -webkit-text-size-adjust:none;
+}
+body{
+  @include gradientColor;
 }
 *{
   margin: 0;
@@ -50,7 +53,6 @@ a{
   color: #2c3e50;
   height: $full;
   width: 7.5rem;
-  background: #73129a;
   color: #fff;
 }
 .con{
@@ -103,17 +105,13 @@ a{
   display: block;
 }
 .tab li a.router-link-exact-active.router-link-active .iconfont{
-  color: #fff;
-  font-size: 0.48rem;
-}
-.tab li a.router-link-exact-active.router-link-active .tab_icon{
-  background-position: center bottom;
+  color: #00ffba;
 }
 .tab .iconfont{
   display: block;
   margin: 0 auto;
   overflow: hidden;
-  font-size: 0.40rem;
+  font-size: 0.48rem;
 }
 .hello{
   height: $full;
@@ -206,17 +204,17 @@ a{
 .album_tit{
   font-size: 0.36rem;
   text-align: left;
-  padding: 0.15rem 0.2rem;
-  color: #ff2f8e;
+  padding: 0.3rem 0.2rem;
+  color: #fff;
   &:before{
     content: '';
     display: inline-block;
     vertical-align: text-top;
-    width: 3px;
+    width: 0.09rem;
     height: 0.36rem;
-    background: #ff2f8e;
+    background: #fff;
     margin-right: 0.15rem;
-    border-radius: 4px;
+    border-radius: 20px;
   }
 }
 .head{
@@ -230,7 +228,6 @@ a{
   font-size: 0.36rem;
   color: #fff;
   padding-top: 0.44rem;
-  background: #73129a;
   z-index: 20;
 }
 .head_left{
