@@ -8,7 +8,7 @@
           <div class="songs_content_info">
             <span class="songs_content_info_num">{{index+1}}</span>
             <p>
-              <router-link :to="{path:'/radioPlay', query:{id:items.song_id}}">
+              <router-link :to="{path:'/radioPlay', query:{id:items.song_id}}" @click="getDuration()">
                 <span class="songs_content_info_name">{{items.title}}</span>
                 <span class="songs_content_info_artist">{{items.artist_name}}</span>
               </router-link>
@@ -19,7 +19,6 @@
       </ul>
     </div>
   </div>
-
 </template>
 <script>
   import header from "./header.vue"
@@ -28,10 +27,12 @@
     components:{
       "v-header":header,
     },
+    props:['time'],
     data () {
       return {
         title:'',
-        music:[]
+        music:[],
+        duration:this.time
       }
     },
     created(){
@@ -42,9 +43,29 @@
       }).then(function(res){
         this.title = res.data.albumInfo.title;
         this.music = res.data.songlist;
-        console.log(res)
+        //console.log(res)
+      });
+      this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.play&songid=8059247',{
+        type:'jsonp',
+        jsonp:'callback'
+      }).then(function(res){
+        this.duration = res.data.bitrate.file_duration;
+        //this.title = this.duration;
+        console.log(this.duration)
+      });
+
+    },
+  methods:{
+    getDuration(){
+      this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.play&songid=8059247',{
+        type:'jsonp',
+        jsonp:'callback'
+      }).then(function(res){
+        this.time = res.data.bitrate.file_duration;
+        console.log(this.time)
       });
     }
+  }
   }
 </script>
 

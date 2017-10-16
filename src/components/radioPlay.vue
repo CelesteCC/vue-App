@@ -43,37 +43,63 @@
       curTime:'00:00',
       duration:'',
       mName:'',
-      singerName:''
+      singerName:'',
+      mtime:{}
     }
   },
   created(){
     this.$http.get('https://api.imjad.cn/cloudmusic/?type=lyric&id=449818741').then(
       function(res){
-        this.lyric = res.data.lrc.lyric.split('[');
-        for(var i = 1;i<this.lyric.length;i++){
-          this.lyric[i] = this.lyric[i].split("]")[1]
+
+        var restful = res.data.lrc.lyric.split('\n');
+       // console.log(res.data.lrc.lyric.split('\n'));
+        var pattern = /\[\d{2}:\d{2}.\d{2,3}\]/g;
+        if (pattern.test(restful[0])){
+          restful = restful.slice(0);
         }
-        console.log()
+        this.lyric = restful.slice(0,restful.length-1)
+          console.log(this.lyric)
+        for( var i = 0;i<this.lyric.length;i++ ){
+          this.mtime = this.lyric[i].match(pattern)
+          //console.log(this.mtime)
+        }
+
+
+
+
+
+
+        //this.lyric = res.data.lrc.lyric.split('[');
+//        for(var i = 1;i<this.lyric.length;i++){
+//          this.lyric[i] ='['+this.lyric[i]
+//
+//          this.lyric[i] = this.lyric[i].split("]")[1];
+//        }
       });
 
-    this.$http.get('http://musicapi.duapp.com/api.php?type=url&id=449818741').then(
-      function(res){
-        //console.log(res)
-      });
+//    this.$http.get('http://musicapi.duapp.com/api.php?type=url&id=449818741').then(
+//      function(res){
+//        //console.log(res)
+//      });
   },
-  mounted(){
-    this.$http.get('https://api.imjad.cn/cloudmusic/?type=song&id='+ this.$route.query.id+'&br=128000').then(
+  beforeCreate(){
+    /*this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.play&songid='+ this.$route.query.id+'',{
+      type:'jsonp'
+    }).then(
       function(res){
-        //console.log(res)
+        console.log(res)
         this.audioSrc = res.body.data[0].url;
-      });
-    let audio = document.getElementById('audio');
+      });*/
     var self = this;
-    //self.duration = '0' + ''+(audio.duration/60).toFixed(2)+''
-    setTimeout(function(){
-      self.duration = '0' + ''+(audio.duration/60).toFixed(2)+''
-      //console.log(audio.duration)
-    },600)
+    this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.play&songid='+ this.$route.query.id + '',{
+      type:'jsonp',
+      jsonp:'callback'
+    }).then(function(res){
+      self.duration = ((res.data.bitrate.file_duration)/60).toFixed(2);
+      this.mName = res.data.songinfo.title;
+      this.singerName = res.data.songinfo.author;
+      //console.log(res)
+    });
   },
   methods:{
     /*musicPlay(){
