@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <div class="content radio">
-      <audio id="audio" :src="audioSrc"></audio>
+      <audio id="audio" :src="audioSrc" autoplay></audio>
       <div class="audio_top">
         <div class="audio_top_back iconfont icon-back" @click="$router.go(-1)"></div>
         <div class="audio_top_name">
@@ -33,101 +33,92 @@
   export default {
     name: 'radioPlay',
     data (){
-    return {
-      lyric: {},
-      flag: false,
-      music_on: 'music_on',
-      audioPic: '',
-      audioSrc:'',
-      barWidth: 0,
-      curTime:'00:00',
-      duration:'',
-      mName:'',
-      singerName:'',
-      mtime:{}
-    }
-  },
-  created(){
-    this.$http.get('https://api.imjad.cn/cloudmusic/?type=lyric&id=449818741').then(
-      function(res){
-
-        var restful = res.data.lrc.lyric.split('\n');
-       // console.log(res.data.lrc.lyric.split('\n'));
-        var pattern = /\[\d{2}:\d{2}.\d{2,3}\]/g;
-        if (pattern.test(restful[0])){
-          restful = restful.slice(0);
-        }
-        this.lyric = restful.slice(0,restful.length-1)
-          console.log(this.lyric)
-        for( var i = 0;i<this.lyric.length;i++ ){
-          this.mtime = this.lyric[i].match(pattern)
-          //console.log(this.mtime)
-        }
-
-
-
-
-
-
-        //this.lyric = res.data.lrc.lyric.split('[');
-//        for(var i = 1;i<this.lyric.length;i++){
-//          this.lyric[i] ='['+this.lyric[i]
-//
-//          this.lyric[i] = this.lyric[i].split("]")[1];
-//        }
-      });
-
-//    this.$http.get('http://musicapi.duapp.com/api.php?type=url&id=449818741').then(
-//      function(res){
-//        //console.log(res)
-//      });
-  },
-  beforeCreate(){
-    /*this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.play&songid='+ this.$route.query.id+'',{
-      type:'jsonp'
-    }).then(
-      function(res){
-        console.log(res)
-        this.audioSrc = res.body.data[0].url;
-      });*/
-    var self = this;
-    this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.play&songid='+ this.$route.query.id + '',{
-      type:'jsonp',
-      jsonp:'callback'
-    }).then(function(res){
-      self.duration = ((res.data.bitrate.file_duration)/60).toFixed(2);
-      this.mName = res.data.songinfo.title;
-      this.singerName = res.data.songinfo.author;
-      //console.log(res)
-    });
-  },
-  methods:{
-    /*musicPlay(){
-      let audio = document.getElementById('audio');
-      let timerID = null;
-      clearInterval(timerID);
-      if(!this.flag){
-        audio.play();
-        this.flag = true;
-        timerID = setInterval(test, 100);
-        let self = this;
-        function test(){
-          if(self.barWidth>=100){
-            return false;
-          }
-          self.barWidth = (audio.currentTime/60)/(audio.duration/60)*100;
-          self.curTime = (audio.currentTime/60).toFixed(2);
-          if(self.curTime<10){
-            self.curTime = '0'+''+(audio.currentTime/60).toFixed(2)+'';
-          }
-        }
-      }else {
-        audio.pause();
-        this.flag = false;
-        clearInterval(timerID);
+      return {
+        lyric: [],
+        flag: false,
+        music_on: 'music_on',
+        audioPic: '',
+        audioSrc:'',
+        barWidth: 0,
+        curTime:'00:00',
+        duration:'',
+        mName:'',
+        singerName:'',
+        mtime:[]
       }
-    }*/
-  }
+    },
+    created(){
+      this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.lry&songid='+ this.$route.query.id + '',{
+        type:'jsonp',
+        jsonp:'callback'
+      }).then(
+        function(res){
+          var restful = res.data.lrcContent.split('\n');
+         // console.log(res.data.lrc.lyric.split('\n'));
+          var pattern = /\[\d{2}:\d{2}.\d{2,3}\]/g;
+
+//          if (!pattern.test(restful[0])){
+//            restful = restful.slice(0);
+//          }
+          restful = restful.slice(0,restful.length-1)
+          console.log(restful)
+          for( var i = 0;i<restful.length;i++ ){
+            if (pattern.test(restful[i].match(pattern))){
+              var t = (restful[i].match(pattern)[0]).slice(1,-1).split(':');
+              var value = restful[i].replace(pattern,'');
+              this.lyric.push(restful[i].replace(pattern,''))
+              this.mtime.push([(t[0] * 60 + parseFloat(t[1])).toFixed(2),value]);
+            }
+          }
+
+          console.log(this.mtime)
+          //this.lyric = res.data.lrc.lyric.split('[');
+  //        for(var i = 1;i<this.lyric.length;i++){
+  //          this.lyric[i] ='['+this.lyric[i]
+  //
+  //          this.lyric[i] = this.lyric[i].split("]")[1];
+  //        }
+        });
+    },
+    beforeCreate(){
+      var self = this;
+      this.$http.jsonp('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.play&songid='+ this.$route.query.id + '',{
+        type:'jsonp',
+        jsonp:'callback'
+      }).then(function(res){
+        self.duration = ((res.data.bitrate.file_duration)/60).toFixed(2);
+        this.mName = res.data.songinfo.title;
+        this.singerName = res.data.songinfo.author;
+        this.audioSrc = res.data.bitrate.file_link;
+      });
+    },
+    methods:{
+      musicPlay(){
+        let audio = document.getElementById('audio');
+        let timerID = null;
+        clearInterval(timerID);
+        if(!this.flag){
+          audio.play();
+          this.flag = true;
+          timerID = setInterval(test, 100);
+          let self = this;
+          function test(){
+            if(self.barWidth>=100){
+              return false;
+            }
+            self.barWidth = (audio.currentTime/60)/(audio.duration/60)*100;
+            self.curTime = (audio.currentTime/60).toFixed(2);
+            if(self.curTime<10){
+              self.curTime = '0'+''+(audio.currentTime/60).toFixed(2)+'';
+            }
+          }
+        }else {
+          audio.pause();
+          this.flag = false;
+          clearInterval(timerID);
+        }
+      }
+    }
   }
 </script>
 
