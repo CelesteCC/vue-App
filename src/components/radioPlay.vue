@@ -54,14 +54,8 @@
       }).then(
         function(res){
           var restful = res.data.lrcContent.split('\n');
-         // console.log(res.data.lrc.lyric.split('\n'));
           var pattern = /\[\d{2}:\d{2}.\d{2,3}\]/g;
-
-//          if (!pattern.test(restful[0])){
-//            restful = restful.slice(0);
-//          }
           restful = restful.slice(0,restful.length-1)
-          console.log(restful)
           for( var i = 0;i<restful.length;i++ ){
             if (pattern.test(restful[i].match(pattern))){
               var t = (restful[i].match(pattern)[0]).slice(1,-1).split(':');
@@ -70,7 +64,6 @@
               this.mtime.push([(t[0] * 60 + parseFloat(t[1])).toFixed(2),value]);
             }
           }
-
           console.log(this.mtime)
           //this.lyric = res.data.lrc.lyric.split('[');
   //        for(var i = 1;i<this.lyric.length;i++){
