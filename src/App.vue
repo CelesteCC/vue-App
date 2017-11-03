@@ -5,9 +5,16 @@
 </template>
 
 <script>
-var html = document.documentElement;
-var hWidth = html.getBoundingClientRect().width;
-html.style.fontSize = hWidth/7.5 + 'px';
+  setFont();
+  window.onresize = function(){
+    setFont();
+  };
+
+  function setFont(){
+    var html = document.documentElement;
+    var hWidth = html.getBoundingClientRect().width;
+    html.style.fontSize = hWidth/7.5 + 'px';
+  }
 export default {
   name: 'app',
   data ()
